@@ -1,0 +1,5 @@
+class Triangle extends Shape {
+float getArea(){
+return self.length*self.width / 2;
+}
+}

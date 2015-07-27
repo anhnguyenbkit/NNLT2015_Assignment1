@@ -1,0 +1,10 @@
+class
+Ex
+{
+integer
+MC
+=
+7
+;
+}
+<EOF>

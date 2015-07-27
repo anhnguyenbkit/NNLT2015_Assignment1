@@ -1,0 +1,9 @@
+class
+Ex
+{
+my1stVar
+;
+integer
+;
+}
+<EOF>
