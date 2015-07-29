@@ -1,5 +1,5 @@
 /*
- * student ID:
+ * student ID: 1570007
  */
 
 grammar BKOOL;
@@ -16,7 +16,7 @@ options{
 	language=Java;
 }
 
-program: classDeclaration+ ;
+program: classDeclaration+ EOF ;
 
 // student for recognizer start from here
 variableModifier
@@ -29,23 +29,18 @@ classDeclaration: 'class' Identifier
 classBody: '{' classBodyDeclaration* '}'
 			;
 classBodyDeclaration
-	: ';'
-	| block
-	| memberDeclartion
+	:  memberDeclartion
 	;
 
 memberDeclartion
 	: methodDeclaration
-	| fieldDeclaration
+	| localVariableDeclaration
 	| constantDeclarationStatement 
 	| constructorDeclaration
-	| classDeclaration
 	;
-fieldDeclaration
-	: variableDeclarators ':' type ';'
-	;
+
 methodDeclaration
-	:	(type | 'void') 'static'? Identifier formalParameters ('[' ']')*	
+	:	(type | 'void') 'static'? Identifier formalParameters	
 		( 	methodBody
 		|	';'
 		)
@@ -61,8 +56,7 @@ formalParameters
 	:	'(' formalParameterList? ')'
 	;
 formalParameterList
-	:	formalParameter	(',' formalParameter)* (','lastFormalParameter)?
-	|	lastFormalParameter
+	:	formalParameter	(';' formalParameter)*
 	;
 formalParameter
 	:	variableDeclarators ':' type
@@ -74,13 +68,11 @@ variableDeclaratorId
 	: Identifier
 	;
 
-lastFormalParameter
-	: variableModifier* type '...' variableDeclaratorId
-	;
 type
-	: primitiveType ('[' ']')*
-	| classType ('[' ']')*
+	: primitiveType ('[' (IntegerLiteral | Identifier)* ']')*
+	| classType ('[' (IntegerLiteral | Identifier)* ']')*
 	;
+
 classType
     :   Identifier
     ;
@@ -107,7 +99,7 @@ localVariableDeclarationStatement
 	;
 	
 localVariableDeclaration
-	:	variableModifier? variableDeclarators ':' type ('[' (IntegerLiteral | Identifier) ']')?
+	:	variableModifier? variableDeclarators ':' type
 	;
 constantDeclarationStatement
 	:	constantDeclaration ';'
@@ -116,16 +108,12 @@ constantDeclaration
 	:	variableModifier? 'final' type Identifier '=' expression
 	;
 statement
-	: 	block
-	| 	'if' expression 'then' statement ('else' statement)?
+	: 	'if' expression 'then' statement ('else' statement)?
 	| 	'while' expression 'do' statement
 	|	'break' ';'
 	|	'continue' ';'
 	|	'return' expression? ';'
 	|	statemenExpression ';'
-	;
-parExpression
-	:	'(' expression ')'
 	;
 statemenExpression
 	: 	expression
@@ -146,7 +134,7 @@ expression
 	|	expression ('+'|'-')
 	| 	expression '!'
 	|	expression '^' expression
-	|	expression ('*'|'/'|'%') expression
+	|	expression ('*'|'/'|'\\'|'%') expression
 	|	expression ('+'|'-') expression
 	|	expression ('&&'|'||') expression
 	|	expression ('=='|'<>') expression
@@ -291,7 +279,8 @@ DOT			: '.';
 
 
 //Operators
-ASSIGN		: '=';
+ASSIGN		: ':=';
+CONSTANTDECLARATION: '=';
 GT			: '>';
 LT			: '<';
 BANG		: '!';
@@ -301,13 +290,14 @@ GE			: '>=';
 NOTEQUAL	: '<>';
 AND			: '&&';
 OR			: '||';
-INC_OR_ADD			: '+';
-DEC_OR_SUB			: '-';
+INC_OR_ADD	: '+';
+DEC_OR_SUB	: '-';
 MUL			: '*';
-DIV			: '/';
+FLOATDIV	: '/';
+INTDIV 		: '\\';
 CARET		: '^';
 MOD			: '%';
-Identifier  : [a-zA-Z][a-zA-Z0-9]*
+Identifier  : [a-zA-Z_][a-zA-Z0-9_]*
 			;
 // Whitespace and comments
 WS	: [ \t\r\n]+ -> skip;
