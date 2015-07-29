@@ -37,13 +37,15 @@ classBodyDeclaration
 memberDeclartion
 	: methodDeclaration
 	| fieldDeclaration
+	| constantDeclarationStatement 
 	| constructorDeclaration
+	| classDeclaration
 	;
 fieldDeclaration
-	: variableDeclarators ':' type
+	: variableDeclarators ':' type ';'
 	;
 methodDeclaration
-	:	(type | 'void') Identifier formalParameters ('[' ']')*	
+	:	(type | 'void') 'static'? Identifier formalParameters ('[' ']')*	
 		( 	methodBody
 		|	';'
 		)
@@ -96,20 +98,27 @@ block
 	: '{' blockStatement* '}'
 	;
 blockStatement
-	: 	localVariableDeclarationStatement
+	:	localVariableDeclarationStatement
 	| 	statement
-	|	classDeclaration
+	|	constantDeclarationStatement 
 	;
 localVariableDeclarationStatement
 	:	localVariableDeclaration ';'
 	;
+	
 localVariableDeclaration
-	:	variableModifier? variableDeclarators ':' type
+	:	variableModifier? variableDeclarators ':' type ('[' (IntegerLiteral | Identifier) ']')?
+	;
+constantDeclarationStatement
+	:	constantDeclaration ';'
+	;
+constantDeclaration
+	:	variableModifier? 'final' type Identifier '=' expression
 	;
 statement
 	: 	block
-	| 	'if' parExpression 'then' statement ('else' statement)?
-	| 	'while' parExpression 'do' statement
+	| 	'if' expression 'then' statement ('else' statement)?
+	| 	'while' expression 'do' statement
 	|	'break' ';'
 	|	'continue' ';'
 	|	'return' expression? ';'
@@ -223,7 +232,7 @@ FloatingPointLiteral
 	;
 fragment
 DecimalFloatingPointLiteral
-	:	Digits '.' Digit? ExponentPart?
+	:	Digits '.' Digits? ExponentPart?
 	|	Digits ExponentPart
 	;
 fragment
@@ -307,3 +316,4 @@ LINE_COMMENT
 	:	'#' ~[\r\n]* -> skip
 	;
 	
+UNCLOSE_STRING: '\"'  {System.out.print("There is an unclosed string.");};
