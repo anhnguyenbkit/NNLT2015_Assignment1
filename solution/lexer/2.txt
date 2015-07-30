@@ -1,3 +1,4 @@
-afafaf
-var
+class
+A
+}
 <EOF>

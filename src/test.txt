@@ -1,4 +1,48 @@
 class Shape {
+static final integer numOfShape = 0;
+final integer immuAttribute = 0;
+length,width: float;
+integer static getNumOfShape() {
+return numOfShape;
+}
+}
+class Rectangle extends Shape {
+float getArea(){
+return self.length*self.width;
+a[3+x.foo(2)] := a[b[2]] +3;
+x.b[2] := x.m()[3];
+#start of declaration part
+r,s:float;
+a,b:integer[5];
+#list of statements
+r:=2.0;
+s:=r*r*self.myPI;
+a[0]:= s;
+if flag then
+io.writeStrLn("Expression is true");
+else
+io.writeStrLn ("Expression is false");
+my1stVar: integer;
+myArrayVar: integer[5];
+static my2ndVar, my3rdVar: Shape;
+static my2ndArray, my3rdArray: Shape[6];
+
+}
+
+}
+
+class Example1 {
+integer factorial(n:integer){
+if n == 0 then return 1; else return n * self.factorial(n - 1);
+}
+void main(){
+x:integer;
+x := io.readInt();
+io.writeIntLn(self.factorial(x));
+}
+}
+
+class Shape {
 length,width:float;
 float getArea() {}
 Shape(length,width:float){
@@ -6,3 +50,23 @@ self.length := length;
 self.width := width;
 }
 }
+class Rectangle extends Shape {
+float getArea(){
+return self.length*self.width;
+}
+}
+class Triangle extends Shape {
+float getArea(){
+return self.length*self.width / 2;
+}
+}
+class Example2 {
+void main(){
+s:Shape;
+s := new Rectangle(3,4);
+io.writeFloatLn(s.getArea());
+s := new Triangle(3,4);
+io.writeFloatLn(s.getArea());
+}
+}
+

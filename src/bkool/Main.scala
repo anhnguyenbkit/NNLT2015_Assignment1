@@ -38,7 +38,6 @@ object Main extends Timed{
     //o phase 2 chi chay parser chu khong thuc hien viec check nen co the bo argument nay
     //val opt = args(4) //tuy chon che do chay
     val option = args(0).drop(1)
-    println("option----->" + option)
     val sepa = "//" // dung cho linux
       //chay tat ca testcase mot luc
     for (i <- start to end) {
@@ -75,9 +74,9 @@ object Main extends Timed{
             option match {
               
               case "testrecogniser" => bkool.parser.TestParser.test(source,dest)
-              case "testlexer" => bkool.parser.TestLexer.test(source,dest)
+              case "testlexer" => parser.TestLexer.test(source,dest)
               case "testassignment1" => {
-                bkool.parser.TestLexer.test(source,dest)
+                parser.TestLexer.test(source,dest)
                 bkool.parser.TestParser.test(source,altdest.get)
               }
               case _ => throw new ClassCastException

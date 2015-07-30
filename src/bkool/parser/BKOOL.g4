@@ -34,7 +34,7 @@ classBodyDeclaration
 
 memberDeclartion
 	: methodDeclaration
-	| localVariableDeclaration
+	| localVariableDeclarationStatement
 	| constantDeclarationStatement 
 	| constructorDeclaration
 	;
@@ -69,10 +69,13 @@ variableDeclaratorId
 	;
 
 type
-	: primitiveType ('[' (IntegerLiteral | Identifier)* ']')*
-	| classType ('[' (IntegerLiteral | Identifier)* ']')*
+	: 	primitiveType 
+	| 	classType 
+	|	arrayType
 	;
-
+arrayType
+	:	(classType | primitiveType) '['IntegerLiteral']'
+	;
 classType
     :   Identifier
     ;
@@ -105,7 +108,7 @@ constantDeclarationStatement
 	:	constantDeclaration ';'
 	;
 constantDeclaration
-	:	variableModifier? 'final' type Identifier '=' expression
+	:	'static'? 'final' type Identifier '=' expression
 	;
 statement
 	: 	'if' expression 'then' statement ('else' statement)?
@@ -124,11 +127,8 @@ expressionList
 expression
 	:	primary
 	|	expression '.' Identifier
-	| 	Identifier '.' Identifier
 	|	expression '.' Identifier '(' expressionList? ')'
-	|	Identifier '.' Identifier '(' expressionList? ')'
-	|	expression '.' 'self'
-	|	'self' '.' Identifier
+	|	'self' '.' expression
 	| 	expression '[' expression ']'
 	|	'new' creator
 	|	expression ('+'|'-')
@@ -300,7 +300,7 @@ MOD			: '%';
 Identifier  : [a-zA-Z_][a-zA-Z0-9_]*
 			;
 // Whitespace and comments
-WS	: [ \t\r\n]+ -> skip;
+WS	: [ \t\r\f\n]+ -> skip;
 COMMENT: '(*' .*? '*)' -> skip;
 LINE_COMMENT
 	:	'#' ~[\r\n]* -> skip

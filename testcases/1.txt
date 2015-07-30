@@ -1,9 +1,2 @@
-class Shape {
-length,width:float;
-float getArea() {}
-Shape(length,width:float){
-self.length := length;
-self.width := width;
-}
-}
+a()
 

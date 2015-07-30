@@ -2,7 +2,7 @@ package bkool.parser
 
 import java.io.{PrintWriter,File}
 import org.antlr.v4.runtime.ANTLRFileStream
-import org.antlr.v4.runtime.CommonTokenStream
+import org.antlr.v4.runtime.CommonTokenStream;
 import bkool.parser.ProcessError
 
 
@@ -40,10 +40,9 @@ object TestParser extends ProcessError {
         /*
          * Create a lexer that reads from our expression string
          */
-        val filetest = "src/test.txt"
 //        val lexer = new BKOOLLexer(fileName); // ANTLRInputStream
-         val lexer = new BKOOLLexer(new ANTLRFileStream(filetest))
-        println("test parser here")
+        val filetest = "src/test.txt";
+        val lexer = new BKOOLLexer(new ANTLRFileStream(filetest));
         val _listener = createErrorListener();
         lexer.removeErrorListeners();
         lexer.addErrorListener(_listener);
@@ -59,7 +58,6 @@ object TestParser extends ProcessError {
         parser.removeErrorListeners();
         parser.addErrorListener(_listener);
 		try {
-      println("debug->>>>>")
 			parser.program();
 			outFile.println("sucessful");
 		} catch {
